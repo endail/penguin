@@ -1,0 +1,286 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/* http://stackoverflow.com/a/12573301/570787 */
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+body{
+	font-family: 'Open Sans', tahoma, arial, sans-serif;
+	background-color: #333333;
+	color: #efefef;
+	margin: 5px;
+	width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 14px;
+}
+
+ul, ol, li{
+	list-style-type: none;
+}
+
+a, a:link, a:active, a:hover{
+	color: #7FD3FA;
+	outline: none;
+}
+
+a, a:link{
+	text-decoration: none;
+}
+
+a:active, a:hover{
+	text-decoration: underline;
+}
+
+textarea{
+	resize: vertical;
+}
+
+textarea:focus{
+	outline-color: #3399ff;
+}
+
+h1{
+	margin-bottom: 10px;
+}
+
+h1 > a{
+	color: inherit !important;
+}
+
+ul.nav{
+	margin-bottom: 0px;
+	text-align: right;
+	float: right;
+}
+
+ul.nav > li{
+	display: inline-block;
+	margin-left: 10px;
+}
+
+h2{
+	margin-bottom: 8px;
+}
+
+.permalink{
+	float: right;
+}
+
+/*
+	REPLACE
+	http://stackoverflow.com/questions/8554043/what-is-clearfix
+*/
+div.clearfix{
+	clear: both;
+}
+
+.hidden{
+	display: none;
+}
+
+div.example{
+	border: 1px solid black;
+	background-color: grey;
+	padding: 10px;
+	margin-bottom: 30px;
+}
+
+i.summary{
+	color: inherit;
+}
+
+input.runBtn{
+	padding: 5px;
+	float: right;
+}
+
+.code{
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 5px;
+	font-family: monospace;
+	font-size: 13px;
+	color: inherit;
+	background-color: #595959;
+	border: 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: pre;
+	word-wrap: normal;
+	height: 100%;
+}
+
+div.example h3{
+	margin-top: 10px;
+}
+
+span.highlight.yellow{
+	background-color: yellow;
+	color: black;
+}
+
+span.highlight.red{
+	background-color: #b20000;
+	color: white;
+}
+
+.output{
+	padding: 5px;
+	background-color: #595959;
+}
+
+
+
+.foodItem{
+	padding: 5px;
+	border: 1px solid #fff;
+	margin: 2px;
+	display:inline-block;
+	list-style-type: none;
+}
+
+.foodItem h3{
+	margin-top: 0 !important;
+}
+
+.foodItem img{
+	 width: 90px;
+	 height: 90px;
+}
+
+
+
+
+div.faq{
+	margin-top: 10px;
+	background-color: #595959;
+	padding: 10px;
+	line-height: 1.4;
+}
+
+div.faq div.faqAnswer{
+	background-color: gray;
+	margin-top: 10px;
+	padding: 10px;
+}
+
+div.faq h3{
+
+}
+
+div.faq ul{
+	margin: 15px 0 15px 0;
+}
+
+div.faq ul li{
+	margin: 10px 8px 10px 8px;
+	list-style-type: disc;
+	list-style-position: inside;
+}
+
+div.faq div.faqAnswer p{
+	margin: 5px 0 5px 0;
+}
+
+div.faq div.faqAnswer *:first-child{
+	margin-top: 0;
+}
+
+div.faq div.faqAnswer *:last-child{
+	margin-bottom: 0;
+}
+
+
+
+
+#contentsList{
+	
+}
+
+#contentsList li{
+	
+}
+
+contentsList li a{
+	
+}
+
+div.reference{
+	margin-top: 30px;
+	background-color: #595959;
+	padding: 10px;
+	line-height: 1.4;
+}
+
+div.reference:nth-of-type(2){
+	margin-top: 10px;
+}
+
+div.reference div.members{
+	margin-top: 10px;
+}
+
+div.reference div.members div.entry h4{
+
+}
+
+div.reference div.members div.entry{
+	padding: 10px;
+	margin-top: 10px;
+	background-color: gray;
+}
+
+div.reference div.members div.entry div.signature{
+	margin-top: 5px;
+}
+
+div.reference div.members div.entry div.signature ul{
+	margin: 5px 30px 5px 30px;
+}
+
+div.reference div.members div.entry p{
+	margin: 8px 0 3px 0;
+}
+
+span.inlineCode{
+	font-family: monospace;
+	background-color: grey;
+}
+
+
+
+
+
+
+
+
+
+div.containerA{
+	background-color: #595959;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+div.containerA *:first-child{
+	margin-top: 0;
+}
+
+div.containerA *:last-child{
+	margin-bottom: 0;
+}
+
+div.containerA h3{
+	margin-bottom: 10px;
+}
+
+div.containerA p{
+	margin: 10px 0 10px 0;
+}

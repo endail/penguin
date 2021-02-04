@@ -1,0 +1,655 @@
+<!doctype html>
+<html>
+
+    <head>
+		
+		<title>Penguin Templates : Reference</title>
+		<meta charset="utf-8"> 
+        <link type="text/css" href="main.css" rel="stylesheet">
+		<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="jquery.scrollTo.min.js"></script>
+		<script type="text/javascript" src="penguin.js"></script>
+		<script type="text/javascript">
+
+			//Prevent jump
+			if(location.hash){
+				window.scrollTo(0, 0);
+			}
+
+			$(document).ready(function(){
+				
+				//Auto-adjust textareas (must go above the anchor triggering for height calculation)
+				$("textarea.code").on("keyup", function(){
+					$(this).height(0).height(this.scrollHeight);
+				}).trigger("keyup");
+								
+				//Stop scrolling on user scroll
+				document.onmousewheel = function(){
+					$(window)._scrollable().stop(true, false);
+				};
+
+			});
+
+			var reference = [
+				
+				{
+					name: "Penguin",
+					summary: [	"Penguin is accessible in two ways: <span class=\"inlineCode\">Penguin</span> and ",
+								"<span class=\"inlineCode\">$$</span>, both of which are bound to <span class=\"inlineCode\">window</span> ",
+								"and therefore accessible globally."].join(""),
+					members: [
+						
+						{
+							name: "Buffer",
+							type: "Property",
+							returns: "Object",
+							parameters: [],
+							summary: "Provides access to Penguin's internal buffer."
+						},
+						
+						{
+							name: "Create",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "model", type: "String", summary: "String containing HTML" }
+							],
+							summary: "Creates a template from the given HTML string"
+						},
+						
+						{
+							name: "Create",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "model", type: "HTMLElement", summary: "Reference to a HTMLElement" }
+							],
+							summary: "Creates a template using a copy of the given HTMLElement"
+						},
+						
+						{
+							name: "Create",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "model", type: "String", summary: "String containing HTML" },
+								{ name: "logic", type: "String", summary: "String containing JavaScript function code" }
+							],
+							summary: [	"Creates a Template using a given HTML string and a string containing the source",
+										" code for a JavaScript function" ].join("")
+						},
+						
+						{
+							name: "Create",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "model", type: "String", summary: "String containing HTML" },
+								{ name: "logic", type: "Function", summary: "JavaScript function" }
+							],
+							summary: "Creates a template using a given HTML string and a defined JavaScript function"
+						},
+						
+						{
+							name: "Create",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "model", type: "HTMLElement", summary: "Reference to a HTMLElement" },
+								{ name: "logic", type: "String", summary: "String containing JavaScript function code" }
+							],
+							summary: [	"Creates a Template using a copy of a HTMLElement and a string containing ",
+										"the source code for a JavaScript function." ].join("")
+						},
+						
+						{
+							name: "Create",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "model", type: "HTMLElement", summary: "Reference to a HTMLElement" },
+								{ name: "logic", type: "Function", summary: "JavaScript function" }
+							],
+							summary: "Creates a Template using a given HTML string and a JavaScript function"
+						},
+						
+						{
+							name: "Get",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "name", type: "String", summary: "Name of a precompiled Template" }
+							],
+							summary: "Returns a copy of a precompiled template"
+						},
+				
+						{
+							name: "jQuerySupport",
+							type: "Method",
+							returns: "Penguin",
+							parameters: [],
+							summary: [	"Defines plugin(s) for jQuery to append templates. This is automatically done if",
+										"jQuery is detected when Penguin is initialised and for a short time thereafter. ",
+										"Calling this function is recommended if jQuery is loaded later on in a web page's ",
+										"lifetimes." ].join("")
+						},
+						
+						{
+							name: "Original$$",
+							type: "Property",
+							returns: "Mixed",
+							parameters: [],
+							summary: [	"As Penguin uses <span class=\"inlineCode\">$$</span> as an alias for",
+										"<span class=\"inlineCode\">Penguin</span>, if it detects a non-undefined",
+										"value for <span class=\"inlineCode\">$$</span> during initialisation, a",
+										"copy of the original value held by <span class=\"inlineCode\">$$</span>",
+										"will be accessible here." ].join("")
+						},
+						
+						{
+							name: "Ready",
+							type: "Method",
+							returns: "Penguin",
+							parameters: [
+								{ name: "func", type: "Function", summary: "JavaScript function" }
+							],
+							summary: [ "Adds a function to the ready list to be called when Penguin is ready.",
+										" If jQuery has been detected, the function will be called when jQuery's",
+										" ready list is being processed. Otherwise, it will be called when",
+										" DOMContentLoaded is fired." ].join("")
+						}
+						
+					]
+				},
+				
+				{
+					name: "Penguin.Buffer",
+					summary: "The internal buffer is an array of Templates. This object controls access to it.",
+					members: [
+						
+						{
+							name: "Clear",
+							type: "Method",
+							returns: "Penguin",
+							parameters: [],
+							summary: "Removes all Templates from the internal array buffer."
+						},
+						
+						{
+							name: "Disable",
+							type: "Method",
+							returns: "Penguin",
+							parameters: [],
+							summary: "Disables buffering."
+						},
+						
+						{
+							name: "Enable",
+							type: "Method",
+							returns: "Penguin",
+							parameters: [],
+							summary: "Enables buffering."
+						},
+						
+						{
+							name: "Enabled",
+							type: "Property",
+							returns: "Boolean",
+							parameters: [],
+							summary: [	"Getter/Setter to enable or disable. Current buffering status is also ",
+										"returned when setting."].join("")
+						},
+						
+						{
+							name: "Collection",
+							type: "Property",
+							returns: "TemplateCollection",
+							parameters: [],
+							summary: [	"Generates and returns a new TemplateCollection of the Templates ",
+										"currently stored in the buffer." ].join("")
+						},
+						
+						{
+							name: "Length",
+							type: "Property",
+							returns: "Number",
+							parameters: [],
+							summary: "Returns the number of Templates currently buffered."
+						},
+						
+						{
+							name: "Push",
+							type: "Method",
+							returns: "Penguin",
+							parameters: [
+								{ name: "t", type: "Template", summary: "An instance of a Template" }
+							],
+							summary: "Adds the given Template to the end of the internal array buffer."
+						}
+						
+					]
+				},
+				
+				{
+					name: "Template",
+					summary: "Wrapper class for DOMNodes and functions: models and logic",
+					members: [
+						
+						{
+							name: "AppendTo",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "n", type: "DOMNode", summary: "Node to be appended" }
+							],
+							summary: "Appends the underlying DOMNode within the Template to the given node."
+						},
+						
+						{
+							name: "AppendTo",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "n", type: "String", summary: "Element id attribute" }
+							],
+							summary: [	"Appends the underlying DOMNode within the template to the element ",
+										"with the given id attribute value. Do not prefix the id with a ",
+										"hash (#)"].join("")
+						},
+						
+						{
+							name: "Copy",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+							],
+							summary: [	"Creates a copy of the Template. The copy is an exact replica of the ",
+										"initially used model and of the currently set logical component ",
+										"(function), if any. The copy does not contain any of the filled values",
+										" in the current Template."].join("")
+						},
+						
+						{
+							name: "DataBind",
+							type: "Method",
+							returns: "Template",
+							parameters: [],
+							summary: [	"Invokes the currently set logic function bound to the Template if ",
+										"one is present. Any arguments passed to this function are then passed",
+										" on to the logic function."].join("")
+						},
+						
+						{
+							name: "DataBindCollection",
+							type: "Method",
+							returns: "TemplateCollection",
+							parameters: [
+								{ name: "coll", type: "Array", summary: "Array of values" }
+							],
+							summary: [	"Creates a new Template for each value in the collection and calls ",
+										"its .DataBind method. Three arguments are passed to .DataBind in the",
+										" following order: the value within the collection, the current index, ",
+										"and a reference to the collection itself. A TemplateCollection containing ",
+										"each newly generated Template is returned."].join("")
+						},
+						
+						{
+							name: "Node",
+							type: "Property",
+							returns: "DOMNode",
+							parameters: [],
+							summary: [	"Returns the DOMNode which represents this Template. The exact type returned will ",
+										"depend on how the Template was created. For example, a &lt;template&gt; used as ",
+										"the model will contain a DocumentFragment, whereas a &lt;div&gt; with a data-template ",
+										"attribute (such as when creating a precompiled template) will return a HTMLElement ",
+										"(specifically a HTMLDivElement)."].join("")
+						},
+						
+						{
+							name: "Get",
+							type: "Method",
+							returns: "HTMLElement",
+							parameters: [
+								{ name: "name", type: "String", summary: "Name of a marked element within the model" }
+							],
+							summary: "Returns the HTMLElement marked with the given name."
+						},
+						
+						{
+							name: "Logic",
+							type: "Method",
+							returns: "Function",
+							parameters: [],
+							summary: "Returns the logical component (JavaScript function) of this Template."
+						},
+						
+						{
+							name: "Logic",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "func", type: "Function", summary: "JavaScript function" }
+							],
+							summary: "Sets the logical component of the Template to the given function."
+						},
+						
+						{
+							name: "Set",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "mark", type: "String", summary: "Marked element" },
+								{ name: "prop", type: "String", summary: "Name of a property on the marked element" },
+								{ name: "value", type: ["String", "Number", "Function", "Array", "Boolean"], summary: "Value to set the property to" }
+							],
+							summary: "Sets the property (prop) of the marked element (mark) to the passed value (value)."
+						},
+						
+						{
+							name: "Set",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "mark", type: "String", summary: "Marked element" },
+								{ name: "value", type: ["String", "Boolean", "Array", "Number"], summary: "Value to set the marked element's textContent to." }
+							],
+							summary: "Sets the marked element's textContent to the given value"
+						},
+						
+						{
+							name: "Set",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "mark", type: "String", summary: "Marked element" },
+								{ name: "map", type: "Object", summary: "Variable length map of property names and values to set for the marked element" }
+							],
+							summary: [	"For each property and value in the map, sets the marked element's property to the ",
+										"corresponding value."].join("")
+						},
+						
+						{
+							name: "Set",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "mark", type: "String", summary: "Marked element" },
+								{ name: "func", type: "Function", summary: "Contextual function" }
+							],
+							summary: [	"Invokes func setting its this pointer to the marked element and containing ",
+										"one argument which is the current Template."].join("")
+						},
+						
+						{
+							name: "Set",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "func", type: "Function", summary: "Contextual function" }
+							],
+							summary: "Invokes func setting its this pointer to the current Template."
+						},
+						
+						{
+							name: "Set",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "map", type: "Object", summary: "Variable length map of property names and values" }
+							],
+							summary: [	"For each property-value pair, sets or contextually invokes a function relating to ",
+										"the marked element referred to by the property. In each property-value pair, if ",
+										"the value is: a String, Boolean, Array, or Number, the value is used to set the ",
+										"element's textContent; an object, each property refers to the element's property ",
+										"(if the property exists) or otherwise its attribute, and the value set to the ",
+										"element's value; or a function, it is invoked and its this pointer set to the ",
+										"element with current Template as the only argument."].join("")
+						},
+						
+						{
+							name: "toJSON",
+							type: "Method",
+							returns: "Object",
+							parameters: [],
+							summary: [	"Returns an object ready to be serialised to JSON. This method is automatically ",
+										"called when using JSON.stringify on a Template."].join("")
+						}
+						
+					]
+				},
+				
+				{
+					name: "TemplateCollection",
+					summary: "Collection class for multiple Templates",
+					members: [
+						
+						{
+							name: "AppendTo",
+							type: "Method",
+							returns: "TemplateCollection",
+							parameters: [
+								{ name: "n", type: ["Node", "String"], summary: "Node to append the collection to" }
+							],
+							summary: [	"Appends the collection of Templates to the given node as a single Document ",
+										"Fragment. If n is a String, it should be an element id."].join("")
+						},
+						
+						{
+							name: "AppendToAsync",
+							type: "Method",
+							returns: "TemplateCollection",
+							parameters: [
+								{ name: "n", type: ["Node", "String"], summary: "Node to append the collection to" },
+							],
+							summary: "Progressively appends chunks of the collection to the DOM."
+						},
+						
+						{
+							name: "AppendToAsync",
+							type: "Method",
+							returns: "TemplateCollection",
+							parameters: [
+								{ name: "n", type: ["Node", "String"], summary: "Node to append the collection to" },
+								{ name: "ival", type: "Number", summary: "Append interval" }
+							],
+							summary: "Progressively appends chunks of the collection to the DOM at each ival interval."
+						},
+						
+						{
+							name: "AppendToAsync",
+							type: "Method",
+							returns: "TemplateCollection",
+							parameters: [
+								{ name: "n", type: ["Node", "String"], summary: "Node to append the collection to" },
+								{ name: "ival", type: "Number", summary: "Append interval" },
+								{ name: "cb", type: "Function", summary: "Callback function" }
+							],
+							summary: [	"Progressively appends chunks of the collection to the DOM at each ival interval. ",
+										"The callback function is invoked once all Templates have been appended."].join("")
+						},
+						
+						{
+							name: "Node",
+							type: "Property",
+							returns: "DOMNode",
+							parameters: [],
+							summary: "Creates and returns a Document Fragment containing all Templates in the collection."
+						},
+						
+						{
+							name: "Item",
+							type: "Method",
+							returns: "Template",
+							parameters: [
+								{ name: "i", type: "Number", summary: "Index of the collection" }
+							],
+							summary: "Returns the Template at the given index. The Template is not removed."
+						},
+						
+						{
+							name: "Length",
+							type: "Property",
+							returns: "Number",
+							parameters: [],
+							summary: "Returns the number of Templates within the collection."
+						},
+						
+						{
+							name: "Push",
+							type: "Method",
+							returns: "TemplateCollection",
+							parameters: [
+								{ name: "t", type: "Template", summary: "Template to add" }
+							],
+							summary: "Adds a Template to the end of the collection."
+						}
+						
+					]
+				}	
+				
+			];
+
+			$$.Ready(function(){
+				
+				var tRef;
+				var contents = $("#contentsList");
+				
+				//For each object in Penguin...
+				reference.forEach(function(r){
+					
+					contents.append($("<li>").append(
+						$("<a>").text(r.name).attr("href", "#" + r.name.replace(/\./g, "_")).click(function(e){
+							
+							if(e.which === 1){
+								e.preventDefault();
+							}
+							
+							$(".permalink[name=\"" + r.name.replace(/\./g, "_") + "\"]").trigger("click");
+							
+						})
+					));
+					
+					//Set up the reference for an object
+					tRef = $$.Get("referenceTemplate").Set({
+						heading: r.name,
+						permalink: {
+							href: "#" + r.name.replace(/\./g, "_"),
+							name: r.name.replace(/\./g, "_")
+						},
+						summary: { innerHTML: r.summary }
+					});
+					
+					//Now add all of the object's members
+					r.members.forEach(function(m){
+						$$.Get("entryTemplate").Set({
+							permalink: {
+								href: "#" +
+										r.name.replace(/\./g, "-") + "_"+
+										m.name.replace(/\./g, "-") + "-" + 
+										m.parameters.map(function(p){ return Array.isArray(p.type) ? p.type.join("|") : p.type; }).join("_"),
+								name:	r.name.replace(/\./g, "-") + "_" +
+										m.name.replace(/\./g, "-") + "-" +
+										m.parameters.map(function(p){ return Array.isArray(p.type) ? p.type.join("|") : p.type; }).join("_")
+							},
+							heading: "." + m.name + (m.type === "Method"
+								? "( " + m.parameters.map(function(p){ return p.name; }).join(", ") + " )"
+								: ""
+							),
+							returnOrType: m.type === "Property" ? "Type" : "Returns",
+							returnValue: m.returns,
+							parameterList: function(){
+									
+								if(m.type === "Property"){
+									$(this).prev("b:first").addBack().hide();
+									return;
+								}
+
+								for(var i=0,l=m.parameters.length; i<l; ++i){
+									$(this).append($("<li>").append(
+										$("<i>").text(Array.isArray(m.parameters[i].type) ? m.parameters[i].type.join(", ") : m.parameters[i].type),
+										" " + m.parameters[i].name + ": " + m.parameters[i].summary
+									));
+								}
+									
+							},
+							summary: { innerHTML: m.summary }
+						})
+						.AppendTo(tRef.Get("memberList")); //Add the member to the <ul> for the reference
+				
+					});
+					
+					//Add the reference to tbe buffer
+					$$.Buffer.Push(tRef);
+					
+				});
+				
+				//Append the entire buffer to the DOM and empty it
+				$$.Buffer.Collection.AppendTo(document.body);
+				$$.Buffer.Clear();
+
+				//Set up scrolling
+				$(".permalink").click(function(e){
+
+					if(e.which === 1){
+						e.preventDefault();
+					}
+
+					var name = this.name;
+					this.removeAttribute("name");
+					location.hash = name;
+					this.name = name;
+					$.scrollTo(this, 800, {easing: "swing", offset: -5});
+
+				});
+					
+				if(location.hash){
+					window.scrollTo(0, 0);
+					$(".permalink[name=" + location.hash.substring(1) + "]").trigger("click");
+				}
+	
+			});
+			
+		</script>
+		
+	</head>
+	<body>
+
+		<h1><a href="index.html">Penguin Templates</a></h1>
+		
+		<ul class="nav">
+			<li><a href="faq">FAQ</a></li>
+			<li><a href="download">Download</a></li>
+			<li><a href="reference">Reference</a></li>
+		</ul>
+		
+		<h2>Reference</h2>	
+		
+		<ul id="contentsList"></ul>
+		
+		<div class="hidden">
+			
+			<div class="reference" data-template="referenceTemplate">
+				
+				<a class="permalink" data-id="permalink">¶</a>
+				<h3 data-id="heading"></h3>
+				<p data-id="summary"></p>
+				
+				<div class="members" data-id="memberList"></div>
+				
+			</div>
+			
+			<div class="entry" data-template="entryTemplate">
+				<a class="permalink" data-id="permalink">¶</a>
+				<h4 data-id="heading"></h4>
+				<div class="signature">
+					<b data-id="returnOrType"></b>: <span data-id="returnValue"></span><br>
+					<b>Parameters: </b>
+					<ul data-id="parameterList"></ul>
+				</div>
+				<p data-id="summary"></p>
+			</div>
+			
+		</div>
+		
+	</body>
+</html>

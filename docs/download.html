@@ -1,0 +1,86 @@
+<?php
+
+	
+
+
+?><!doctype html>
+<html>
+
+    <head>
+		
+		<title>Penguin Templates : Download</title>
+		<meta charset="utf-8"> 
+        <link type="text/css" href="main.css" rel="stylesheet">
+		<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="jquery.scrollTo.min.js"></script>
+		<script type="text/javascript" src="penguin.js"></script>
+		<script type="text/javascript">
+
+			//Prevent jump
+			if(location.hash){
+				window.scrollTo(0, 0);
+			}
+
+			$(document).ready(function(){
+				
+				//Auto-adjust textareas (must go above the anchor triggering for height calculation)
+				$("textarea.code").on("keyup", function(){
+					$(this).height(0).height(this.scrollHeight);
+				}).trigger("keyup");
+				
+				//Set up scrolling
+				$(".permalink").click(function(e){
+					
+					if(e.which === 1){
+						e.preventDefault();
+					}
+					
+					var name = this.name;
+					this.removeAttribute("name");
+					location.hash = name;
+					this.name = name;
+					$.scrollTo(this, 800, {easing: "swing", offset: -5});
+					
+				});
+				
+				//Check URL hash
+				if(location.hash){
+					$(".permalink[name=" + location.hash.substring(1) + "]").trigger("click");
+				}
+				
+				//Stop scrolling on user scroll
+				document.onmousewheel = function(){
+					$(window)._scrollable().stop(true, false);
+				};
+
+			});
+
+		</script>
+		
+	</head>
+	<body>
+
+		<h1><a href="index.html">Penguin Templates</a></h1>
+	
+		<ul class="nav">
+			<li><a href="faq">FAQ</a></li>
+			<li><a href="download">Download</a></li>
+			<li><a href="reference">Reference</a></li>
+		</ul>
+		
+		<h2>Download</h2>
+		
+		<div class="containerA">
+			<h3>Production</h3>
+			<a href="?penguin-3.0.min.js">Download</a> (13.7 KB)
+			<p>Just want to use it? Choose this. It's the compressed version of the Development script below.</p>
+		</div>
+		
+		<div class="containerA">
+			<h3>Development</h3>
+			<a href="?penguin-3.0.js">Download</a> (33.8 KB)
+			<p>Fully commented, uncompressed release.</p>
+		</div>
+		
+	</body>
+</html>
