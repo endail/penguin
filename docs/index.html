@@ -1,0 +1,582 @@
+<!doctype html>
+<html>
+
+    <head>
+		
+		<title>Penguin Templates</title>
+		<meta charset="utf-8"> 
+        <link type="text/css" href="main.css" rel="stylesheet">
+		<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="jquery.scrollTo.min.js"></script>
+		<script type="text/javascript" src="penguin.min.js"></script>
+		<script type="text/javascript">
+
+			//Prevent jump
+			if(location.hash){
+				window.scrollTo(0, 0);
+			}
+
+			var foods = [
+			 { name: "Banana", summary: "Perfect for smoothies!", image: "http://i.imgur.com/otAge7r.png", price: 0.45 },
+			 { name: "Apple", summary: "Red & Green", image: "http://i.imgur.com/liimiZO.png", price: 0.99 },
+			 { name: "Pear", summary: "Green and very juicy", image: "http://i.imgur.com/fvgPKHR.png", price: 0.88 }
+			];
+
+			$(document).ready(function(){
+				
+				//Auto-adjust textareas (must go above the anchor triggering for height calculation)
+				$("textarea.code").on("keyup", function(){
+					$(this).height(0).height(this.scrollHeight);
+				}).trigger("keyup");
+				
+				//Set up scrolling
+				$(".permalink").click(function(e){
+					
+					//Stop the left-click event
+					if(e.which === 1){
+						e.preventDefault();
+					}
+					
+					var name = this.name;
+					this.removeAttribute("name");
+					location.hash = name;
+					this.name = name;
+					$.scrollTo(this, 800, {easing: "swing", offset: -5});
+					
+				});
+				
+				//Check URL hash
+				if(location.hash){
+					$(".permalink[name=" + location.hash.substring(1) + "]").trigger("click");
+				}
+				
+				//Stop scrolling on user scroll
+				document.onmousewheel = function(){
+					$(window)._scrollable().stop(true, false);
+				};
+				
+				
+				function preExampleRun(){
+					$(this).css("visibility", "hidden");
+					$(this).siblings("div.hidden").show();
+				}
+				
+				function postExampleRun(){
+					$(this).closest(".exampleContainer").find(".permalink").trigger("click");
+				}
+				
+				
+
+				$("#btnEx1").click(function(){
+
+					preExampleRun.call(this);
+
+					var t = $$.Get("foodItem")
+					 .Set("name", "Banana")
+					 .Set("summary", "Perfect for smoothies!")
+					 .Set("image", function(){ this.src = "http://i.imgur.com/otAge7r.png"; })
+					 .Set("price", 0.45);
+
+					document.getElementById("ex1Output").appendChild(t.Node);
+					
+					postExampleRun.call(this);
+
+				});
+
+				$("#btnEx2").click(function(){
+
+					preExampleRun.call(this);
+
+					var banana = {
+					 name: "Banana",
+					 summary: "Perfect for smoothies!",
+					 image: "http://i.imgur.com/otAge7r.png",
+					 price: 0.45
+					};
+
+					$$.Get("foodItem").DataBind(banana).AppendTo("ex2Output");
+					
+					postExampleRun.call(this);
+
+				});
+
+				$("#btnEx3").click(function(){
+
+					preExampleRun.call(this);
+					
+					var foods = [
+					 { name: "Banana", summary: "Perfect for smoothies!", image: "http://i.imgur.com/otAge7r.png", price: 0.45 },
+					 { name: "Apple", summary: "Red & Green", image: "http://i.imgur.com/liimiZO.png", price: 0.99 },
+					 { name: "Pear", summary: "Green and very juicy", image: "http://i.imgur.com/fvgPKHR.png", price: 0.88 }
+					];
+
+					$$.Get("foodItem").DataBindCollection(foods).AppendTo("ex3Output");
+					
+					postExampleRun.call(this);
+
+				});
+
+				$("#btnEx4").click(function(){
+
+					preExampleRun.call(this);
+
+					var banana = $$.Get("foodItem").DataBind(foods[0]);
+					var allFoods = $$.Get("foodItem").DataBindCollection(foods);
+
+					$("#ex4Output")
+						.appendTemplates( banana )
+						.append( $("<br>") )
+						.appendTemplates( banana.Copy().DataBind(foods[2]), $("<br>"), allFoods);
+				
+					postExampleRun.call(this);
+					 
+				});
+
+				$("#btnEx5").click(function(){
+
+					$(this).siblings("div.hidden").show();
+					$("#ex5Output").empty();
+					
+					try{
+						eval($("#txtEx5CodeInput").val());
+					}
+					catch(e){
+						alert("Error: " + e);
+					}
+					
+					postExampleRun.call(this);
+					
+				});
+
+				$("#btnEx6").click(function(){
+
+					preExampleRun.call(this);
+
+					var str = JSON.stringify($$.Get("foodItem"));
+					$("#ex6Output").append( document.createTextNode(str), "<br><br>" );
+
+					var template = $$.Create(JSON.parse(str));
+					$("#ex6Output").appendTemplates( template.DataBind(foods[0]) );
+					
+					postExampleRun.call(this);
+
+				});
+
+				$("#btnEx7").click(function(){
+
+					preExampleRun.call(this);
+
+					$$.Get("foodItem2").DataBindCollection(foods).AppendTo("ex7Output");
+					
+					postExampleRun.call(this);
+
+				});
+
+				$("#btnEx8").click(function(){
+
+					preExampleRun.call(this);
+
+					var heading = $$.Create('<h3 style="text-align:center;" data-id="text"></h4>');
+
+					$$.Buffer.Enable();
+
+					foods.forEach(function(f){
+						$$.Buffer.Push( heading.Copy().Set("text", f.name + "s") );
+						for(var i = 0; i < 5; ++i) $$.Get("foodItem").DataBind(f);
+					});
+
+					$$.Buffer.Disable();
+
+					$("#ex8Output").append( $$.Buffer.Collection.Node );
+					
+					postExampleRun.call(this);
+
+				});
+
+			});
+
+		</script>
+		
+		
+	</head>
+	<body>
+
+		<div style="display: none;">
+
+			<div class="foodItem" data-template="foodItem">
+			 <h3 data-id="name"></h3>
+			 <p data-id="summary"></p>
+			 <img data-id="image">
+			 $<b data-id="price"></b> ea.
+			</div>
+
+			<script type="text/penguin-template" data-for="foodItem">
+			 function(f){
+			  this.Set({
+			   name: f.name,
+			   summary: f.summary,
+			   image: function(){
+				this.src = f.image;
+				this.title = f.name;
+				this.onclick = function(){
+				 alert("I'm a bargain at $" + f.price + "!");
+				}
+			   },
+			   price: f.price
+			  });
+			 };
+			</script>
+
+			<template data-template="foodItem2">
+				<b data-id="name"></b><br>
+				<span data-id="about"></span>
+				<hr>
+			</template>
+
+			<script type="text/penguin-template" data-for="foodItem2">
+				function(f){
+				 this.Set({
+				  name: f.name,
+				  about: f.summary
+				 });
+				};
+			</script>
+			
+		</div>
+		
+		<h1><a href="index.html">Penguin Templates</a></h1>
+		
+		<ul class="nav">
+			<li><a href="faq">FAQ</a></li>
+			<li><a href="download">Download</a></li>
+			<li><a href="reference">Reference</a></li>
+		</ul>
+		
+		<h2>&nbsp;</h2>
+	
+		<div class="exampleContainer">
+			<a name="basic" href="#basic" class="permalink">¶</a>
+			<h2>Basic Example</h2>
+			<div class="example">
+			
+				<i class="summary">Define a model for a template and use it</i>
+				<input class="runBtn" type="button" id="btnEx1" value="Run Example">	
+			
+				<div>
+					<h3>Model</h3>
+					<pre class="code">
+&lt;div class="foodItem" data-template="foodItem"&gt;
+ &lt;h3 data-id="name"&gt;&lt;/h3&gt;
+ &lt;p data-id="summary"&gt;&lt;/p&gt;
+ &lt;img data-id="image"/&gt;
+ $&lt;b data-id="price"&gt;&lt;/b&gt; ea.
+&lt;/div&gt;</pre>
+				</div>
+
+				<div>
+					<h3>Use It</h3>
+					<pre class="code">
+var t = $$.Get("foodItem")
+ .Set("name", "Banana")
+ .Set("summary", "Perfect for smoothies!")
+ .Set("image", function(){ this.src = "http://i.imgur.com/otAge7r.png"; })
+ .Set("price", 0.45);
+
+document.getElementById("ex1Output").appendChild(t.Node);</pre>
+				</div>
+
+				<div class="hidden">
+					<h3>Result</h3>
+					<div id="ex1Output" class="output"></div>
+				</div>
+
+			</div>
+		</div>
+		
+		
+		
+		
+		<div class="exampleContainer">
+			<a name="adding-logic" href="#adding-logic" class="permalink">¶</a>
+			<h2>Adding Logic</h2>
+			<div class="example">
+			
+				<i class="summary">Add a logical component to bind values to the model</i>
+				<input class="runBtn" type="button" id="btnEx2" value="Run Example">	
+			
+				<div>
+					<h3>Logic</h3>
+					<pre class="code">
+&lt;script type="text/penguin-template" data-for="foodItem"&gt;
+ function(f){
+  this.Set({
+   name: f.name,
+   summary: f.summary,
+   image: function(){
+    this.src = f.image;
+    this.title = f.name;
+    this.onclick = function(){
+     alert("I'm a bargain at $" + f.price + "!");
+    }
+   },
+   price: f.price
+  });
+ };
+&lt;/script&gt;</pre>
+				</div>
+
+				<div>
+					<h3>Use It</h3>
+					<pre class="code">var banana = {
+ name: "Banana",
+ summary: "Perfect for smoothies!",
+ image: "http://i.imgur.com/otAge7r.png",
+ price: 0.45
+};
+
+$$.Get("foodItem").DataBind(banana).AppendTo("ex2Output");</pre>
+				</div>
+			
+				<div class="outputContainer hidden">
+					<h3>Result</h3>
+					<div id="ex2Output" class="output"></div>
+				</div>
+			
+			</div>
+		</div>
+		
+		
+		
+		
+		<div class="exampleContainer">
+			<a name="databind-collection" href="#3" class="permalink">¶</a>
+			<h2>DataBinding A Collection</h2>
+			<div class="example">
+			
+				<i class="summary">Bind a collection of objects to templates and output the result</i>
+				<input class="runBtn" type="button" id="btnEx3" value="Run Example">	
+	
+				<div>
+					<h3>Use It</h3>
+					<pre class="code">var foods = [
+ { name: "Banana", summary: "Perfect for smoothies!", image: "http://i.imgur.com/otAge7r.png", price: 0.45 },
+ { name: "Apple", summary: "Red & Green", image: "http://i.imgur.com/liimiZO.png", price: 0.99 },
+ { name: "Pear", summary: "Green and very juicy", image: "http://i.imgur.com/fvgPKHR.png", price: 0.88 }
+];
+
+$$.Get("foodItem").DataBindCollection(foods).AppendTo("ex3Output");</pre>
+				</div>
+			
+				<div class="hidden">
+					<h3>Result</h3>
+					<div id="ex3Output" class="output"></div>
+				</div>
+			
+			</div>
+		</div>
+		
+		
+		
+
+		<div class="exampleContainer">
+			<a name="jquery-support" href="#jquery-support" class="permalink">¶</a>
+			<h2>jQuery Support</h2>
+			<div class="example">
+			
+				<i class="summary">jQuery plugins are automatically included and can be used to append a single template, collection, and jQuery objects</i>
+				<input class="runBtn" type="button" id="btnEx4" value="Run Example">	
+			
+				<div>
+					<h3>Use It</h3>
+					<pre class="code">var banana = $$.Get("foodItem").DataBind(foods[0]);
+var allFoods = $$.Get("foodItem").DataBindCollection(foods);
+
+$("#ex4Output")
+ .appendTemplates( banana )
+ .append( $("&lt;br&gt;") )
+ .appendTemplates( banana.Copy().DataBind(foods[2]), $("&lt;br&gt;"), allFoods);</pre>
+				</div>
+			
+				<div class="hidden">
+					<h3>Result</h3>
+					<div id="ex4Output" class="output"></div>
+				</div>
+
+			</div>
+		</div>
+		
+		
+
+		
+		<div class="exampleContainer">
+			<a name="on-the-fly" href="#on-the-fly" class="permalink">¶</a>
+			<h2>On-The-Fly Templates (Try It Yourself)</h2>
+			<div class="example">
+			
+				<i class="summary">Templates can also be created manually. Edit the textboxes below and give it a try.</i>
+				<input class="runBtn" type="button" id="btnEx5" value="Run Example">	
+						
+				<div>
+					<h3>Model</h3>
+					<textarea id="txtEx5ModelInput" class="code" spellcheck="false"><div class="foodItem" data-template="fruit">
+ <h3 data-id="name"></h3>
+ <p data-id="summary"></p>
+ <img data-id="image">
+ $<b data-id="price"></b> ea.
+</div></textarea>
+				</div>
+				
+				<div>
+					<h3>Logic</h3>
+					<textarea id="txtEx5LogicInput" class="code" spellcheck="false">function(f){
+ this.Set({
+  name: f.name,
+  summary: f.summary,
+  image: function(){
+   this.src = f.image;
+   this.title = f.name;
+   this.onclick = function(){
+    alert("I'm a bargain at $" + f.price + "!");
+   }
+  },
+  price: f.price
+ });
+};</textarea>
+				</div>
+			
+				<div>
+					<h3>Use It</h3>
+					<textarea id="txtEx5CodeInput" class="code" spellcheck="false">var template = $$.Create( $("#txtEx5ModelInput").val(), $("#txtEx5LogicInput").val() );
+var fruits = [
+ { name: "Banana", summary: "Perfect for smoothies!", image: "http://i.imgur.com/otAge7r.png", price: 0.45 },
+ { name: "Apple", summary: "Red & Green", image: "http://i.imgur.com/liimiZO.png", price: 0.99 },
+ { name: "Pear", summary: "Green and very juicy", image: "http://i.imgur.com/fvgPKHR.png", price: 0.88 }
+];
+
+template.DataBindCollection(fruits).AppendTo("ex5Output");</textarea>
+				</div>
+			
+				<div class="hidden">
+					<h3>Result</h3>
+					<div id="ex5Output" class="output"></div>
+				</div>
+			
+			</div>
+		</div>
+		
+		
+		
+		
+		<div class="exampleContainer">
+			<a name="json" href="#json" class="permalink">¶</a>
+			<h2>JSON Serialisation & Deserialisation</h2>
+			<div class="example">
+			
+				<i class="summary">A template can be serialised to a JSON-formatted string... and vice-versa</i>
+				<input class="runBtn" type="button" id="btnEx6" value="Run Example">	
+			
+				<div>
+					<h3>Use It</h3>
+					<pre class="code">
+var str = JSON.stringify($$.Get("foodItem"));
+$("#ex6Output").append( document.createTextNode(str), "&lt;br&gt;&lt;br&gt;" );
+
+var template = $$.Create(JSON.parse(str));
+$("#ex6Output").appendTemplates( template.DataBind(foods[0]) ); //banana</pre>
+				</div>
+			
+				<div class="hidden">
+					<h3>Result</h3>
+					<div id="ex6Output" class="output"></div>
+				</div>
+			
+			</div>
+		</div>
+		
+		
+		
+		
+		<div class="exampleContainer">
+			<a name="template-tag" href="#template-tag" class="permalink">¶</a>
+			<h2>&lt;template&gt; Tag</h2>
+			<div class="example">
+			
+				<i class="summary">Despite <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template#Specifications" target="_blank">still being worked on</a>, the &lt;template&gt; tag is fully supported, and its contents do not require a parent element</i>
+				<input class="runBtn" type="button" id="btnEx7" value="Run Example">	
+					
+				<div>
+					<h3>Model</h3>
+					<pre class="code">&lt;template data-template="foodItem2"&gt;
+ &lt;b data-id="name"&gt;&lt;/b&gt;&lt;br&gt;
+ &lt;span data-id="about"&gt;&lt;/span&gt;
+ &lt;hr&gt;
+&lt;/template&gt;</pre>
+				</div>
+			
+				<div>
+					<h3>Logic</h3>
+					<pre class="code">
+&lt;script type="text/penguin-template" data-for="foodItem2"&gt;
+ function(f){
+  this.Set({
+   name: f.name,
+   about: f.summary
+  });
+ };
+&lt;/script&gt;</pre>		
+				</div>
+			
+				<div>
+					<h3>Use It</h3>
+					<pre class="code">$$.Get("foodItem2").DataBindCollection(foods).AppendTo("ex7Output");</pre>
+				</div>
+			
+				<div class="hidden">
+					<h3>Result</h3>
+					<div id="ex7Output" class="output"></div>
+				</div>
+
+			</div>
+		</div>
+		
+		
+		
+		
+		<div class="exampleContainer">
+			<a name="template-buffering" href="#template-buffering" class="permalink">¶</a>
+			<h2>Template Buffering</h2>
+			<div class="example">
+			
+				<i class="summary">Each created template can be buffered internally and output later as a single document fragment</i>
+				<input class="runBtn" type="button" id="btnEx8" value="Run Example">	
+			
+				<div>
+					<h3>Use It</h3>
+					<pre class="code">var heading = $$.Create('&lt;h3 style="text-align:center;" data-id="text"&gt;&lt;/h4&gt;');
+
+$$.Buffer.Enable();
+
+foods.forEach(function(f){
+ $$.Buffer.Push( heading.Copy().Set("text", f.name + "s") );
+ for(var i = 0; i < 5; ++i) $$.Get("foodItem").DataBind(f);
+});
+
+$$.Buffer.Disable();
+
+$("#ex8Output").append( $$.Buffer.Collection.Node );</pre>
+				</div>
+			
+				<div class="hidden">
+					<h3>Result</h3>
+					<div id="ex8Output" class="output"></div>
+				</div>
+			
+			</div>
+		</div>
+		
+		
+		
+		
+	</body>
+	
+</html>
